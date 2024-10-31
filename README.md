@@ -1,3 +1,13 @@
+## Dependencies
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+node -v
+npm -v
+npm install -g react-devtools
+
+not sure if you can use Vite/Bootstrap/MySQL2 that's already in the repo, let's see.
+
 ## Steps to get started
 1. Clone this repo
 2. cd appropriately and then:
