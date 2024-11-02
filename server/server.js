@@ -1,42 +1,33 @@
-// Pre requisites:
-// Install nodejs, mysql-server, mysql2
+// Import MySQL package
+const mysql = require('mysql2');
 
-const express = require('express');
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(express.json());
-
-// Example route
-app.get('/', (req, res) => {
-    res.send('Hello from the server!');
+// Create a connection to the database
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',  // Replace with your MySQL username
+    password: '12345678', // Replace with your MySQL password
+    database: 'HMS' // Use the Hospital Management System database
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Connect to the database
+db.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to MySQL Database!');
 
-// MySQL connection:
-const mysql = require('mysql2/promise');
+    // Query to show all tables in the database
+    db.query('SHOW TABLES', (err, results) => {
+        if (err) throw err;
 
-async function connectAndQuery() {
-    try {
-        const db = await mysql.createConnection({
-            host: 'localhost', // Replace it with your host name
-            user: 'root', // Replace it with the user name
-            password: '12345678', // Replace it with your password 
-            database: 'test' // Replace it with the actual database name
-// All of the above creds were used to test if its working. Has to be changed during the actual run.            
+        console.log('Tables in HMS database:');
+        results.forEach(row => {
+            // Each row will have a table name under the key (table_name) depending on the MySQL version
+            console.log(Object.values(row)[0]); 
         });
-        console.log('Connected to MySQL Database!'); 
 
-
-        await db.end(); // Closes the Database connection. Can be commented out if not needed
-        console.log('Database connection closed.');
-    } catch (error) {
-        console.error('Database error:', error.message);
-    }
-}
-
-connectAndQuery();
+        // Close the database connection
+        db.end((err) => {
+            if (err) throw err;
+            console.log('Connection closed.');
+        });
+    });
+});
