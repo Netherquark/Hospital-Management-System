@@ -1,8 +1,9 @@
 ## To Do:
 2 Nov 24:
 1. Sehaj: SQL 100 dummy entries
-2. Soham: Home summary view
+2. ~~ Soham: Home summary view ~~
 3. Karmadeept: Get it working with SQL
+4. Soham: Add JS to generate dynamic tables
 
 ## Dependencies
 ```
