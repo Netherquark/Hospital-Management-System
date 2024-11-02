@@ -1,3 +1,6 @@
+// Pre requisites:
+// Install nodejs, mysql-server, mysql2
+
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,16 +18,25 @@ app.listen(PORT, () => {
 });
 
 // MySQL connection:
-// const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-// const db = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'your_username',
-//     password: 'your_password',
-//     database: 'your_database'
-// });
+async function connectAndQuery() {
+    try {
+        const db = await mysql.createConnection({
+            host: 'localhost', // Replace it with your host name
+            user: 'root', // Replace it with the user name
+            password: '12345678', // Replace it with your password 
+            database: 'test' // Replace it with the actual database name
+// All of the above creds were used to test if its working. Has to be changed during the actual run.            
+        });
+        console.log('Connected to MySQL Database!'); 
 
-// db.connect((err) => {
-//     if (err) throw err;
-//     console.log('Connected to MySQL Database!');
-// });
+
+        await db.end(); // Closes the Database connection. Can be commented out if not needed
+        console.log('Database connection closed.');
+    } catch (error) {
+        console.error('Database error:', error.message);
+    }
+}
+
+connectAndQuery();
