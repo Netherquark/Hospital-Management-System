@@ -1,3 +1,9 @@
+## To Do:
+2 Nov 24:
+1. Sehaj: SQL 100 dummy entries
+2. Soham: Home summary view
+3. Karmadeept: Get it working with SQL
+
 ## Dependencies
 ```
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
