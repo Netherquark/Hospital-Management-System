@@ -1,0 +1,93 @@
+-- Table: Patient
+CREATE TABLE Patient (
+    Patient_ID INT PRIMARY KEY,
+    First_Name VARCHAR(50),
+    Last_Name VARCHAR(50),
+    Date_of_Birth DATE,
+    Gender VARCHAR(10),
+    Address TEXT,
+    Phone_Number VARCHAR(15),
+    Email VARCHAR(50),
+    Emergency_Contact VARCHAR(15),
+    Insurance_Details TEXT,
+    Medical_History TEXT
+);
+
+-- Table: Department
+CREATE TABLE Department (
+    Department_ID INT PRIMARY KEY,
+    Department_Name VARCHAR(100),
+    Head_of_Department VARCHAR(50),
+    Contact_No VARCHAR(15)
+);
+
+-- Table: Doctor
+CREATE TABLE Doctor (
+    Doctor_ID INT PRIMARY KEY,
+    First_Name VARCHAR(50),
+    Last_Name VARCHAR(50),
+    Specialization VARCHAR(100),
+    Contact_Number VARCHAR(15),
+    Email_ID VARCHAR(50),
+    Work_Shift VARCHAR(20),
+    Experience INT,
+    Consulting_Fee DECIMAL(10, 2),
+    Department_ID INT,
+    FOREIGN KEY (Department_ID) REFERENCES Department(Department_ID)
+);
+
+-- Table: Appointment
+CREATE TABLE Appointment (
+    Appointment_ID INT PRIMARY KEY,
+    Patient_ID INT,
+    Doctor_ID INT,
+    Appointment_Date DATE,
+    Appointment_Time TIME,
+    Status VARCHAR(20),
+    Reason_of_Visit TEXT,
+    FOREIGN KEY (Patient_ID) REFERENCES Patient(Patient_ID),
+    FOREIGN KEY (Doctor_ID) REFERENCES Doctor(Doctor_ID)
+);
+
+-- Table: Billing
+CREATE TABLE Billing (
+    Billing_ID INT PRIMARY KEY,
+    Appointment_ID INT,
+    Patient_ID INT,
+    Total_Amount DECIMAL(10, 2),
+    Payment_Method VARCHAR(50),
+    Billing_Date DATE,
+    Payment_Status VARCHAR(20),
+    FOREIGN KEY (Appointment_ID) REFERENCES Appointment(Appointment_ID),
+    FOREIGN KEY (Patient_ID) REFERENCES Patient(Patient_ID)
+);
+
+-- Table: Laboratory
+CREATE TABLE Laboratory (
+    Lab_Test_ID INT PRIMARY KEY,
+    Patient_ID INT,
+    Appointment_ID INT,
+    Test_Type VARCHAR(100),
+    Test_Date DATE,
+    Test_Charges DECIMAL(10, 2),
+    Test_Result TEXT,
+    FOREIGN KEY (Patient_ID) REFERENCES Patient(Patient_ID),
+    FOREIGN KEY (Appointment_ID) REFERENCES Appointment(Appointment_ID)
+);
+
+-- Table: Prescription
+CREATE TABLE Prescription (
+    Prescription_ID INT PRIMARY KEY,
+    Appointment_ID INT,
+    Doctor_ID INT,
+    Patient_ID INT,
+    Medicine_Details TEXT,
+    Prescription_Date DATE,
+    FOREIGN KEY (Appointment_ID) REFERENCES Appointment(Appointment_ID),
+    FOREIGN KEY (Doctor_ID) REFERENCES Doctor(Doctor_ID),
+    FOREIGN KEY (Patient_ID) REFERENCES Patient(Patient_ID)
+);
+
+SHOW DATABASES;
+USE HMS;  --HMS stands for Hospital Management System, the schema being used for this project.
+show tables;
