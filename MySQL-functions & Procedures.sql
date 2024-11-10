@@ -214,3 +214,41 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- Admin View
+CREATE VIEW Admin_HospitalOverview AS
+SELECT 
+    p.Patient_ID,
+    CONCAT(p.First_Name, ' ', p.Last_Name) AS Patient_Name,
+    p.Date_of_Birth,
+    p.Gender,
+    p.Phone_Number,
+    p.Email,
+    
+    a.Appointment_ID,
+    a.Appointment_Date,
+    a.Appointment_Time,
+    a.Status AS Appointment_Status,
+    a.Reason_of_Visit,
+
+    CONCAT(d.First_Name, ' ', d.Last_Name) AS Doctor_Name,
+    d.Specialization AS Doctor_Specialization,
+    d.Contact_Number AS Doctor_Contact,
+    d.Experience AS Doctor_Experience,
+
+    b.Billing_ID,
+    b.Total_Amount AS Billing_Total,
+    b.Payment_Method,
+    b.Billing_Date,
+    b.Payment_Status
+
+FROM 
+    Patient p
+LEFT JOIN 
+    Appointment a ON p.Patient_ID = a.Patient_ID
+LEFT JOIN 
+    Doctor d ON a.Doctor_ID = d.Doctor_ID
+LEFT JOIN 
+    Billing b ON a.Appointment_ID = b.Appointment_ID
+ORDER BY 
+    a.Appointment_Date DESC, a.Appointment_Time DESC;
