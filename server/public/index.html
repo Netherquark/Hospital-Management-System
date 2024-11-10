@@ -425,10 +425,25 @@
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                                <!-- Update the logout link to redirect to /login.html -->
+                                                <a href="/login.html" id="logout-link">
+                                                    <i class="zmdi zmdi-power"></i>Logout
+                                                </a>
                                             </div>
                                         </div>
+                                        
+                                        <script>
+                                            document.getElementById('logout-link').addEventListener('click', function(event) {
+                                                event.preventDefault();  // Prevents the default anchor behavior
+                                        
+                                                // Optional: Perform any logout actions here, such as clearing session data
+                                                // For example: sessionStorage.clear(); or localStorage.clear();
+                                        
+                                                // Redirect to the login page
+                                                window.location.href = '/login.html';
+                                            });
+                                        </script>
+                                        
                                     </div>
                                 </div>
                             </div>

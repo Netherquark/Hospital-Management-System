@@ -10,7 +10,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Register</title>
+    <title>Register Patient</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
@@ -33,6 +33,21 @@
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
 
+    <!-- Custom CSS for side-by-side layout -->
+    <style>
+        .form-row {
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+
+        .col-6 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+    </style>
 </head>
 
 <body class="animsition">
@@ -47,36 +62,72 @@
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
-                                <div class="form-group">
-                                    <label>Username</label>
-                                    <input class="au-input au-input--full" type="text" name="username" placeholder="Username">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
-                                </div>
-                                <div class="login-checkbox">
-                                    <label>
-                                        <input type="checkbox" name="aggree">Agree the terms and policy
-                                    </label>
-                                </div>
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
-                                <div class="social-login-content">
-                                    <div class="social-button">
-                                        <button class="au-btn au-btn--block au-btn--blue m-b-20">register with facebook</button>
-                                        <button class="au-btn au-btn--block au-btn--blue2">register with twitter</button>
+                            <form action="/register-patient" method="post">
+                                <div class="form-row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="first_name">First Name</label>
+                                        <input class="au-input au-input--full" type="text" name="first_name" id="first_name" placeholder="First Name" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="last_name">Last Name</label>
+                                        <input class="au-input au-input--full" type="text" name="last_name" id="last_name" placeholder="Last Name" required>
                                     </div>
                                 </div>
+                                
+                                <div class="form-row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="dob">Date of Birth</label>
+                                        <input class="au-input au-input--full" type="date" name="dob" id="dob" placeholder="Date of Birth" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="gender">Gender</label>
+                                        <select class="au-input au-input--full" name="gender" id="gender" required>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="phone_number">Phone Number</label>
+                                        <input class="au-input au-input--full" type="text" name="phone_number" id="phone_number" placeholder="Phone Number" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="email">Email Address</label>
+                                        <input class="au-input au-input--full" type="email" name="email" id="email" placeholder="Email" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="address">Address</label>
+                                        <input class="au-input au-input--full" type="text" name="address" id="address" placeholder="Address" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="emergency_contact">Emergency Contact</label>
+                                        <input class="au-input au-input--full" type="text" name="emergency_contact" id="emergency_contact" placeholder="Emergency Contact" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col-md-6 form-group">
+                                        <label for="insurance_details">Insurance Details</label>
+                                        <input class="au-input au-input--full" type="text" name="insurance_details" id="insurance_details" placeholder="Insurance Details" required>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <label for="medical_history">Medical History</label>
+                                        <textarea class="au-input au-input--full" name="medical_history" id="medical_history" placeholder="Medical History" required></textarea>
+                                    </div>
+                                </div>
+
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Register</button>
                             </form>
                             <div class="register-link">
                                 <p>
-                                    Already have account?
-                                    <a href="#">Sign In</a>
+                                    Already have an account?
+                                    <a href="login.html">Sign In</a>
                                 </p>
                             </div>
                         </div>
@@ -84,7 +135,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Jquery JS-->
@@ -92,21 +142,17 @@
     <!-- Bootstrap JS-->
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- Vendor JS       -->
-    <script src="vendor/slick/slick.min.js">
-    </script>
+    <!-- Vendor JS-->
+    <script src="vendor/slick/slick.min.js"></script>
     <script src="vendor/wow/wow.min.js"></script>
     <script src="vendor/animsition/animsition.min.js"></script>
-    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
-    </script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="vendor/counter-up/jquery.counterup.min.js">
-    </script>
+    <script src="vendor/counter-up/jquery.counterup.min.js"></script>
     <script src="vendor/circle-progress/circle-progress.min.js"></script>
     <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="vendor/select2/select2.min.js">
-    </script>
+    <script src="vendor/select2/select2.min.js"></script>
 
     <!-- Main JS-->
     <script src="js/main.js"></script>
