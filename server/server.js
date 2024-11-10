@@ -128,16 +128,33 @@ app.post('/cancel-appointment', (req, res) => {
 app.post('/appointment-history', (req, res) => {
     const { patient_id, start_date, end_date } = req.body;
 
-    const query = `CALL PatientAppointmentHistory(?, ?, ?)`;
+    // SQL query to fetch the appointment data
+    const query = `
+        SELECT 
+            Appointment_ID,
+            Patient_ID,
+            Doctor_ID,
+            Appointment_Date,
+            Appointment_Time,
+            Status,
+            Reason_of_Visit
+        FROM HMS.Appointment
+        WHERE Patient_ID = 34
+        ORDER BY Appointment_Date DESC;
+    `;
+
+    // Query the database
     db.query(query, [patient_id, start_date, end_date], (err, results) => {
         if (err) {
             console.error('Error fetching appointment history:', err);
             res.status(500).send('Error fetching appointment history');
         } else {
-            res.json(results[0] || { message: 'No appointments found' });
+            // Return the results as JSON
+            res.json(results.length ? results : { message: 'No appointments found' });
         }
     });
 });
+
 
 // Remove Existing Doctor
 app.post('/remove-doctor', (req, res) => {

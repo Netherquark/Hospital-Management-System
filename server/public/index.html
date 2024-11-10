@@ -603,7 +603,7 @@
                             </div>
                         </div> -->
                         <div class="row">
-                            <div class="col-lg-9">
+                            <div class="col-lg-12">
                                 <h2 class="title-1 m-b-25">Appointment History</h2>
                                 <div class="table-responsive table--no-card m-b-40">
                                     <table class="table table-borderless table-striped table-earning">
@@ -612,81 +612,87 @@
                                                 <th>Date</th>
                                                 <th>Appointment ID</th>
                                                 <th>Doctor ID</th>
-                                                <th class="text-right">Domain</th>
-                                                <th class="text-right">Prescription</th>
-                                                <th class="text-right">Cost</th>
+                                                <th>Appointment Time</th>
+                                                <th>Status</th>
+                                                <th>Reason of Visit</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>2018-09-29 05:57</td>
-                                                <td>100398</td>
-                                                <td>Dr. John Smith</td>
-                                                <td class="text-right">$999.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$999.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-28 01:22</td>
-                                                <td>100397</td>
-                                                <td>Dr. Nicholas Martinez</td>
-                                                <td class="text-right">$756.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$756.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-27 02:12</td>
-                                                <td>100396</td>
-                                                <td>Dr. Michelle Sims</td>
-                                                <td class="text-right">$22.00</td>
-                                                <td class="text-right">2</td>
-                                                <td class="text-right">$44.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-26 23:06</td>
-                                                <td>100395</td>
-                                                <td>Dr. Nicholas Martinez</td>
-                                                <td class="text-right">$1199.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$1199.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-25 19:03</td>
-                                                <td>100393</td>
-                                                <td>Dr. Mathew Perry</td>
-                                                <td class="text-right">$10.00</td>
-                                                <td class="text-right">3</td>
-                                                <td class="text-right">$30.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-29 05:57</td>
-                                                <td>100392</td>
-                                                <td>Dr. John Smith</td>
-                                                <td class="text-right">$199.00</td>
-                                                <td class="text-right">6</td>
-                                                <td class="text-right">$1494.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-24 19:10</td>
-                                                <td>100391</td>
-                                                <td>Dr. Nicholas Martinez</td>
-                                                <td class="text-right">$699.00</td>
-                                                <td class="text-right">1</td>
-                                                <td class="text-right">$699.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2018-09-22 00:43</td>
-                                                <td>100393</td>
-                                                <td>Dr. Michelle Sims</td>
-                                                <td class="text-right">$10.00</td>
-                                                <td class="text-right">3</td>
-                                                <td class="text-right">$30.00</td>
-                                            </tr>
+                                        <tbody id="appointment-history-body">
+                                            <!-- Dynamic rows will be injected here by JavaScript -->
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
+                            
+                            <script>
+                                // Fetch the appointment history data from the backend
+                                function fetchAppointmentHistory(patientId, startDate, endDate) {
+                                    fetch('/appointment-history', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({ patient_id: patientId, start_date: startDate, end_date: endDate })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        const tbody = document.getElementById('appointment-history-body');
+                                        tbody.innerHTML = '';  // Clear any existing rows
+                                        
+                                        if (data.message) {
+                                            // Show message if no appointments are found
+                                            const noAppointmentsRow = document.createElement('tr');
+                                            const noAppointmentsCell = document.createElement('td');
+                                            noAppointmentsCell.colSpan = 6;
+                                            noAppointmentsCell.textContent = data.message;
+                                            noAppointmentsRow.appendChild(noAppointmentsCell);
+                                            tbody.appendChild(noAppointmentsRow);
+                                        } else {
+                                            data.forEach(appointment => {
+                                                const row = document.createElement('tr');
+                                                
+                                                const dateCell = document.createElement('td');
+                                                dateCell.textContent = appointment.Appointment_Date; // Use Appointment_Date
+                                                row.appendChild(dateCell);
+                            
+                                                const appointmentIdCell = document.createElement('td');
+                                                appointmentIdCell.textContent = appointment.Appointment_ID; // Use Appointment_ID
+                                                row.appendChild(appointmentIdCell);
+                            
+                                                const doctorIdCell = document.createElement('td');
+                                                doctorIdCell.textContent = appointment.Doctor_ID; // Use Doctor_ID
+                                                row.appendChild(doctorIdCell);
+                            
+                                                const appointmentTimeCell = document.createElement('td');
+                                                appointmentTimeCell.textContent = appointment.Appointment_Time; // Use Appointment_Time
+                                                row.appendChild(appointmentTimeCell);
+                            
+                                                const statusCell = document.createElement('td');
+                                                statusCell.textContent = appointment.Status; // Use Status
+                                                row.appendChild(statusCell);
+                            
+                                                const reasonCell = document.createElement('td');
+                                                reasonCell.textContent = appointment.Reason_of_Visit; // Use Reason_of_Visit
+                                                row.appendChild(reasonCell);
+                            
+                                                tbody.appendChild(row);
+                                            });
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching appointment history:', error);
+                                    });
+                                }
+                            
+                                // Example usage of the fetch function
+                                // Replace these values with the actual patient ID and date range
+                                const patientId = '123';  // Example patient ID
+                                const startDate = '2024-01-01';  // Example start date
+                                const endDate = '2024-11-01';  // Example end date
+                                fetchAppointmentHistory(patientId, startDate, endDate);
+                            </script>
+                            
+                            <!-- <div class="col-lg-3">
                                 <h2 class="title-1 m-b-25">Top Doctors</h2>
                                 <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
                                     <div class="au-card-inner">
@@ -731,7 +737,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
