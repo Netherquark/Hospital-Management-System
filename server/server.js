@@ -83,16 +83,31 @@ app.post('/schedule-appointment', (req, res) => {
         appointment_date, appointment_time, reason_of_visit
     } = req.body;
 
-    const query = `CALL ScheduleAppointment(?, ?, ?, ?, ?, ?)`;
-    db.query(query, [appointment_id, patient_id, doctor_id, appointment_date, appointment_time, reason_of_visit], (err, results) => {
+    const checkQuery = `SELECT COUNT(*) AS conflict FROM Appointment WHERE Doctor_ID = ? AND Appointment_Date = ? AND Appointment_Time = ?`;
+    db.query(checkQuery, [doctor_id, appointment_date, appointment_time], (err, results) => {
         if (err) {
-            console.error('Error scheduling appointment:', err);
-            res.status(500).send('Error scheduling appointment');
-        } else {
-            res.json({ message: 'Appointment scheduled successfully!' });
+            console.error('Error checking appointment conflict:', err);
+            return res.status(500).send('Error checking appointment conflict');
         }
+
+        if (results[0].conflict > 0) {
+            return res.status(409).send('Appointment conflict detected');
+        }
+
+        const insertQuery = `INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Appointment_Date, Appointment_Time, Status, Reason_of_Visit) 
+                             VALUES (?, ?, ?, ?, ?, 'Scheduled', ?)`;
+        
+        db.query(insertQuery, [appointment_id, patient_id, doctor_id, appointment_date, appointment_time, reason_of_visit], (err, results) => {
+            if (err) {
+                console.error('Error scheduling appointment:', err);
+                res.status(500).send('Error scheduling appointment');
+            } else {
+                res.json({ message: 'Appointment scheduled successfully!' });
+            }
+        });
     });
 });
+
 
 // Cancel Patient Appointment
 app.post('/cancel-appointment', (req, res) => {

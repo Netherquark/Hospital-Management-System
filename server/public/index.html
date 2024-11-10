@@ -805,6 +805,88 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong>Schedule Appointment</strong>
+                                        <small> Form</small>
+                                    </div>
+                                    <div class="card-body card-block">
+                                        <div class="form-group">
+                                            <label for="appointment_id" class=" form-control-label">Appointment ID</label>
+                                            <input type="text" id="appointment_id" placeholder="Enter appointment ID" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="patient_id" class=" form-control-label">Patient ID</label>
+                                            <input type="text" id="patient_id" placeholder="Enter patient ID" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="doctor_id" class=" form-control-label">Doctor ID</label>
+                                            <input type="text" id="doctor_id" placeholder="Enter doctor ID" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="appointment_date" class=" form-control-label">Appointment Date</label>
+                                            <input type="date" id="appointment_date" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="appointment_time" class=" form-control-label">Appointment Time</label>
+                                            <input type="time" id="appointment_time" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reason_of_visit" class=" form-control-label">Reason of Visit</label>
+                                            <textarea id="reason_of_visit" placeholder="Enter reason for visit" class="form-control"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" id="schedule-appointment" class="btn btn-primary">Schedule Appointment</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <script>
+                                document.getElementById("schedule-appointment").addEventListener("click", function(event) {
+                                    event.preventDefault();
+                            
+                                    const appointment_id = document.getElementById("appointment_id").value;
+                                    const patient_id = document.getElementById("patient_id").value;
+                                    const doctor_id = document.getElementById("doctor_id").value;
+                                    const appointment_date = document.getElementById("appointment_date").value;
+                                    const appointment_time = document.getElementById("appointment_time").value;
+                                    const reason_of_visit = document.getElementById("reason_of_visit").value;
+                            
+                                    // Ensure all fields are filled
+                                    if (!appointment_id || !patient_id || !doctor_id || !appointment_date || !appointment_time || !reason_of_visit) {
+                                        alert("Please fill out all fields.");
+                                        return;
+                                    }
+                            
+                                    // Send the data to the server
+                                    fetch('/schedule-appointment', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            appointment_id,
+                                            patient_id,
+                                            doctor_id,
+                                            appointment_date,
+                                            appointment_time,
+                                            reason_of_visit
+                                        })
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.message) {
+                                            alert(data.message);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        alert("Error scheduling appointment: " + error);
+                                    });
+                                });
+                            </script>
+                            
+                            <div class="col-lg-6">
                                 <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
                                     <div class="au-card-title" style="background-image:url('images/bg-title-02.jpg');">
                                         <div class="bg-overlay bg-overlay--blue"></div>
