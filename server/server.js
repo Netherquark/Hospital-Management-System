@@ -1,18 +1,19 @@
 const express = require('express');
 const mysql = require('mysql2');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
 
 // Middleware for parsing JSON requests
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.static('public'));
 
 // Create a connection to the database
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // Replace with your MySQL username
-    password: '12345678', // Replace with your MySQL password
+    password: 'asche%2365', // Replace with your MySQL password
     database: 'HMS' // Use the Hospital Management System database
 });
 
@@ -26,17 +27,33 @@ db.connect((err) => {
 
 // Authenticate Doctor
 app.post('/authenticate-doctor', (req, res) => {
-    const { doc_id, entered_pass } = req.body;
-    const query = `CALL AuthenticateDoctor(?, ?)`;
-    db.query(query, [doc_id, entered_pass], (err, results) => {
+    const { doc_id, password } = req.body;  // Expecting doc_id and password in the request body
+    
+    const query = 'SELECT Password FROM HMS.Doctor WHERE Doctor_ID = ?';
+    
+    db.query(query, [doc_id], (err, results) => {
         if (err) {
             console.error('Error during authentication:', err);
-            res.status(500).send('Error authenticating doctor');
+            return res.status(500).json({ message: 'Error authenticating doctor' });
+        }
+        
+        if (results.length === 0) {
+            // No matching doctor found for the provided Doctor_ID
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        
+        const storedPassword = results[0].Password;
+        
+        if (password === storedPassword) {
+            // Password matches
+            res.status(200).json({ message: 'Login successful' });
         } else {
-            res.json(results[0] || { message: 'No doctor found or invalid credentials' });
+            // Password does not match
+            res.status(401).json({ message: 'Invalid credentials' });
         }
     });
 });
+
 
 // Register Patient
 app.post('/register-patient', (req, res) => {
