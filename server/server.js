@@ -161,6 +161,19 @@ app.get('/monthly-appointments', (req, res) => {
     });
 });
 
+// Admin Overview
+app.get('/admin-overview', (req, res) => {
+    const query = `SELECT * FROM Admin_HospitalOverview`;  // Querying the Admin_HospitalOverview view
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching admin overview:', err);
+            res.status(500).send('Error fetching admin overview');
+        } else {
+            res.json(results || { message: 'No data found' });
+        }
+    });
+});
+
 // Start the server
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
