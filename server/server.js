@@ -63,7 +63,9 @@ app.post('/register-patient', (req, res) => {
         insurance_details, medical_history
     } = req.body;
 
-    const query = `CALL RegisterPatient(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `INSERT INTO Patient (Patient_ID, First_Name, Last_Name, Date_of_Birth, Gender, Address, Phone_Number, Email, Emergency_Contact, Insurance_Details, Medical_History) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    
     db.query(query, [patient_id, first_name, last_name, dob, gender, address, phone_number, email, emergency_contact, insurance_details, medical_history], (err, results) => {
         if (err) {
             console.error('Error registering patient:', err);
