@@ -425,7 +425,7 @@ VALUES
 (2, 2, 2, 2, 'Ibuprofen 400mg as needed', '2024-11-02'),
 (3, 3, 3, 3, 'Paracetamol 250mg for fever', '2024-11-03'),
 (4, 4, 4, 4, 'Sumatriptan 50mg for migraine', '2024-11-04'),
-(5, 5, 5, 5, 'Tamoxifen 20mg once daily', '2024-11-05');
+(5, 5, 5, 5, 'Tamoxifen 20mg once daily', '2024-11-05'),
 (6, 6, 6, 6, 'Hydrocortisone cream 2.5% for rash', '2024-11-06'),
 (7, 7, 7, 7, 'Omeprazole 20mg for stomach pain', '2024-11-07'),
 (8, 8, 8, 8, 'Sertraline 50mg for anxiety', '2024-11-08'),
