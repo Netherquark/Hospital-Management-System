@@ -188,3 +188,29 @@ BEGIN
     ORDER BY 
         Month DESC, Department;
 END //
+
+-- Functions for retrieving appointment history for patients 
+DELIMITER //
+
+CREATE PROCEDURE GetPatientAppointmentHistory(IN p_PatientID INT)
+BEGIN
+    SELECT 
+        a.Appointment_ID,
+        a.Appointment_Date,
+        a.Appointment_Time,
+        a.Status,
+        a.Reason_of_Visit,
+        CONCAT(d.First_Name, ' ', d.Last_Name) AS Doctor_Name,
+        d.Specialization AS Doctor_Specialization,
+        d.Contact_Number AS Doctor_Contact
+    FROM 
+        Appointment a
+    INNER JOIN 
+        Doctor d ON a.Doctor_ID = d.Doctor_ID
+    WHERE 
+        a.Patient_ID = p_PatientID
+    ORDER BY 
+        a.Appointment_Date DESC, a.Appointment_Time DESC;
+END //
+
+DELIMITER ;
