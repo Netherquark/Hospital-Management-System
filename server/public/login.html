@@ -99,11 +99,11 @@
             else if (role === 'patient') document.getElementById('patient-form').style.display = 'block';
             else if (role === 'admin') document.getElementById('admin-form').style.display = 'block';
         }
-
+    
         async function authenticateUser(event, role) {
             event.preventDefault();
             let data = {}, endpoint;
-
+    
             if (role === 'doctor') {
                 data = { doc_id: document.getElementById('docId').value, password: document.getElementById('docPassword').value };
                 endpoint = '/authenticate-doctor';
@@ -114,18 +114,24 @@
                 data = { username: document.getElementById('adminUsername').value, password: document.getElementById('adminPassword').value };
                 endpoint = '/authenticate-admin';
             }
-
+    
             try {
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-
+    
                 const result = await response.json();
                 if (response.ok) {
-                    // Redirect to dashboard on successful login
-                    window.location.href = "/index.html";
+                    // Redirect to the correct page based on user role
+                    if (role === 'doctor') {
+                        window.location.href = "/indexdoctor.html"; // Doctor dashboard
+                    } else if (role === 'patient') {
+                        window.location.href = "/index.html"; // Patient dashboard
+                    } else if (role === 'admin') {
+                        window.location.href = "/indexadmin.html"; // Admin dashboard
+                    }
                 } else {
                     alert(result.message);  // Show error message if login fails
                 }
@@ -135,6 +141,7 @@
             }
         }
     </script>
+    
 
     <!-- Additional JS -->
     <script src="vendor/bootstrap-4.1/popper.min.js"></script>
