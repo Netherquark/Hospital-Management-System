@@ -156,9 +156,9 @@
 
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
+            <div class="logo" style="transform: scale(0.7); transform-origin: top left;">
                 <a href="#">
-                    <img src="images/icon/logo.png" alt="Cool Admin" />
+                    <img src="images/icon/logo-mini.png" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -883,7 +883,8 @@
                                     <div class="au-card-title" style="background-image:url('images/bg-title-02.jpg');">
                                         <div class="bg-overlay bg-overlay--blue"></div>
                                         <h3>
-                                            <i class="zmdi zmdi-comment-text"></i>Conversations with experts</h3>
+                                            <i class="zmdi zmdi-comment-text"></i>Consultations with Specialists
+                                        </h3>
                                         <button class="au-btn-plus">
                                             <i class="zmdi zmdi-plus"></i>
                                         </button>
@@ -891,9 +892,8 @@
                                     <div class="au-inbox-wrap js-inbox-wrap">
                                         <div class="au-message js-list-load">
                                             <div class="au-message__noti">
-                                                <p>You Have
+                                                <p>You have
                                                     <span>2</span>
-
                                                     new messages
                                                 </p>
                                             </div>
@@ -903,12 +903,12 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap">
                                                                 <div class="avatar">
-                                                                    <img src="images/icon/avatar-02.jpg" alt="John Smith">
+                                                                    <img src="images/icon/avatar-02.jpg" alt="Dr. John Smith">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
                                                                 <h5 class="name">Dr. John Smith</h5>
-                                                                <p>Have sent a photo</p>
+                                                                <p>Sent a diagnostic report</p>
                                                             </div>
                                                         </div>
                                                         <div class="au-message__item-time">
@@ -921,12 +921,12 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap online">
                                                                 <div class="avatar">
-                                                                    <img src="images/icon/avatar-03.jpg" alt="Nicholas Martinez">
+                                                                    <img src="images/icon/avatar-03.jpg" alt="Dr. Nicholas Martinez">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
                                                                 <h5 class="name">Dr. Nicholas Martinez</h5>
-                                                                <p>You are now connected on message</p>
+                                                                <p>You are now connected on the portal</p>
                                                             </div>
                                                         </div>
                                                         <div class="au-message__item-time">
@@ -939,7 +939,7 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap online">
                                                                 <div class="avatar">
-                                                                    <img src="images/icon/avatar-04.jpg" alt="Michelle Sims">
+                                                                    <img src="images/icon/avatar-04.jpg" alt="Dr. Michelle Sims">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
@@ -957,12 +957,12 @@
                                                         <div class="au-message__item-text">
                                                             <div class="avatar-wrap">
                                                                 <div class="avatar">
-                                                                    <img src="images/icon/avatar-05.jpg" alt="Michelle Sims">
+                                                                    <img src="images/icon/avatar-05.jpg" alt="Dr. Mathew Perry">
                                                                 </div>
                                                             </div>
                                                             <div class="text">
                                                                 <h5 class="name">Dr. Mathew Perry</h5>
-                                                                <p>Good to hear!</p>
+                                                                <p>Glad to hear that!</p>
                                                             </div>
                                                         </div>
                                                         <div class="au-message__item-time">
@@ -970,45 +970,9 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="au-message__item js-load-item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap online">
-                                                                <div class="avatar">
-                                                                    <img src="images/icon/avatar-04.jpg" alt="Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Dr. Travis Nathan</h5>
-                                                                <p>Lorem ipsum dolor sit amet</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Yesterday</span>
-                                                        </div>
-                                                    </div>
+                                                <div class="au-message__footer">
+                                                    <button class="au-btn au-btn-load js-load-btn">Load more</button>
                                                 </div>
-                                                <div class="au-message__item js-load-item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap">
-                                                                <div class="avatar">
-                                                                    <img src="images/icon/avatar-05.jpg" alt="Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Dr. Drew Scott</h5>
-                                                                <p>Purus feugiat finibus</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Sunday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="au-message__footer">
-                                                <button class="au-btn au-btn-load js-load-btn">load more</button>
                                             </div>
                                         </div>
                                         <div class="au-chat">
@@ -1016,11 +980,11 @@
                                                 <div class="au-chat-info">
                                                     <div class="avatar-wrap online">
                                                         <div class="avatar avatar--small">
-                                                            <img src="images/icon/avatar-02.jpg" alt="John Smith">
+                                                            <img src="images/icon/avatar-02.jpg" alt="Dr. John Smith">
                                                         </div>
                                                     </div>
                                                     <span class="nick">
-                                                        <a href="#">John Smith</a>
+                                                        <a href="#">Dr. John Smith</a>
                                                     </span>
                                                 </div>
                                             </div>
@@ -1029,11 +993,11 @@
                                                     <span class="mess-time">12 Min ago</span>
                                                     <div class="recei-mess__inner">
                                                         <div class="avatar avatar--tiny">
-                                                            <img src="images/icon/avatar-02.jpg" alt="John Smith">
+                                                            <img src="images/icon/avatar-02.jpg" alt="Dr. John Smith">
                                                         </div>
                                                         <div class="recei-mess-list">
-                                                            <div class="recei-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
-                                                            <div class="recei-mess">Donec tempor, sapien ac viverra</div>
+                                                            <div class="recei-mess">The patient reports symptoms of mild fatigue</div>
+                                                            <div class="recei-mess">We should schedule additional tests</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1041,7 +1005,7 @@
                                                     <span class="mess-time">30 Sec ago</span>
                                                     <div class="send-mess__inner">
                                                         <div class="send-mess-list">
-                                                            <div class="send-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
+                                                            <div class="send-mess">Noted, will arrange for Monday</div>
                                                         </div>
                                                     </div>
                                                 </div>
