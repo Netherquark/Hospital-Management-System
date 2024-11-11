@@ -13,7 +13,7 @@ app.use(express.static('public'));
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // Replace with your MySQL username
-    password: '12345678', // Replace with your MySQL password
+    password: 'asche%2365', // Replace with your MySQL password
     database: 'HMS' // Use the Hospital Management System database
 });
 
@@ -107,7 +107,7 @@ app.post('/register-patient', (req, res) => {
     } = req.body;
 
     const query = `INSERT INTO Patient (Patient_ID, First_Name, Last_Name, Date_of_Birth, Gender, Address, Phone_Number, Email, Emergency_Contact, Insurance_Details, Medical_History) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                   VALUES (237, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     
     db.query(query, [patient_id, first_name, last_name, dob, gender, address, phone_number, email, emergency_contact, insurance_details, medical_history], (err, results) => {
         if (err) {
