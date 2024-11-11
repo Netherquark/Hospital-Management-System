@@ -54,6 +54,49 @@ app.post('/authenticate-doctor', (req, res) => {
     });
 });
 
+app.post('/authenticate-patient', (req, res) => {
+    const { patient_id, password } = req.body;  // Expecting patient_id and password in the request body
+    
+    const query = 'SELECT Password FROM HMS.Patient WHERE Patient_ID = ?';
+    
+    db.query(query, [patient_id], (err, results) => {
+        if (err) {
+            console.error('Error during patient authentication:', err);
+            return res.status(500).json({ message: 'Error authenticating patient' });
+        }
+        
+        if (results.length === 0) {
+            // No matching patient found for the provided Patient_ID
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+        
+        const storedPassword = results[0].Password;
+        
+        if (password === storedPassword) {
+            // Password matches
+            res.status(200).json({ message: 'Patient login successful' });
+        } else {
+            // Password does not match
+            res.status(401).json({ message: 'Invalid credentials' });
+        }
+    });
+});
+
+app.post('/authenticate-admin', (req, res) => {
+    const { username, password } = req.body;  // Expecting username and password in the request body
+    
+    const adminUsername = 'admin';
+    const adminPassword = 'admin';
+    
+    if (username === adminUsername && password === adminPassword) {
+        // Admin credentials are correct
+        res.status(200).json({ message: 'Admin login successful' });
+    } else {
+        // Admin credentials do not match
+        res.status(401).json({ message: 'Invalid credentials' });
+    }
+});
+
 
 // Register Patient
 app.post('/register-patient', (req, res) => {
