@@ -289,6 +289,26 @@ app.get('/upcoming-appointments', (req, res) => {
     });
 });
 
+// Get Monthly Revenue by Department
+app.get('/monthly-revenue', (req, res) => {
+    const { revenueMonth, revenueYear } = req.query; // Expecting month and year as query parameters
+
+    if (!revenueMonth || !revenueYear) {
+        return res.status(400).json({ message: 'Both revenueMonth and revenueYear are required' });
+    }
+
+    const query = `CALL GetMonthlyRevenueByDepartment(?, ?)`;
+
+    db.query(query, [revenueMonth, revenueYear], (err, results) => {
+        if (err) {
+            console.error('Error fetching monthly revenue:', err);
+            return res.status(500).json({ message: 'Error fetching monthly revenue' });
+        }
+
+        // The result set is typically returned as an array of arrays, so we access results[0]
+        res.json(results[0] || { message: 'No revenue data found for the specified month and year' });
+    });
+});
 
 // Start the server
 app.listen(port, () => {
