@@ -13,7 +13,7 @@ app.use(express.static('public'));
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // Replace with your MySQL username
-    password: 'asche%2365', // Replace with your MySQL password
+    password: '12345678', // Replace with your MySQL password
     database: 'HMS' // Use the Hospital Management System database
 });
 
@@ -267,6 +267,28 @@ app.get('/admin-overview', (req, res) => {
         }
     });
 });
+
+// Get Upcoming Appointments
+app.get('/upcoming-appointments', (req, res) => {
+    const { startDate } = req.query; // Assuming the date is passed as a query parameter
+
+    if (!startDate) {
+        return res.status(400).json({ message: 'Start date is required' });
+    }
+
+    const query = `CALL GetUpcoming10AppointmentsFromDate(?)`;
+
+    db.query(query, [startDate], (err, results) => {
+        if (err) {
+            console.error('Error fetching upcoming appointments:', err);
+            return res.status(500).json({ message: 'Error fetching upcoming appointments' });
+        }
+
+        // The result set is typically returned as an array of arrays, so we access results[0]
+        res.json(results[0] || { message: 'No upcoming appointments found' });
+    });
+});
+
 
 // Start the server
 app.listen(port, () => {
