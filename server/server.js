@@ -13,7 +13,7 @@ app.use(express.static('public'));
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',  // Replace with your MySQL username
-    password: 'asche%2365', // Replace with your MySQL password
+    password: '12345678', // Replace with your MySQL password
     database: 'HMS' // Use the Hospital Management System database
 });
 
@@ -107,7 +107,7 @@ app.post('/register-patient', (req, res) => {
     } = req.body;
 
     const query = `INSERT INTO Patient (Patient_ID, First_Name, Last_Name, Date_of_Birth, Gender, Address, Phone_Number, Email, Emergency_Contact, Insurance_Details, Medical_History) 
-                   VALUES (237, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     
     db.query(query, [patient_id, first_name, last_name, dob, gender, address, phone_number, email, emergency_contact, insurance_details, medical_history], (err, results) => {
         if (err) {
@@ -291,13 +291,32 @@ app.get('/upcoming-appointments', (req, res) => {
 
 // Get Monthly Revenue by Department
 app.get('/monthly-revenue', (req, res) => {
-    const { revenueMonth, revenueYear } = req.query; // Expecting month and year as query parameters
+    const { revenueMonth, revenueYear } = req.query;
 
     if (!revenueMonth || !revenueYear) {
         return res.status(400).json({ message: 'Both revenueMonth and revenueYear are required' });
     }
 
-    const query = `CALL GetMonthlyRevenueByDepartment(?, ?)`;
+    const query = `
+        SELECT 
+            dep.Department_Name,
+            SUM(b.Total_Amount) AS Total_Revenue
+        FROM 
+            Billing b
+        JOIN 
+            Appointment a ON b.Appointment_ID = a.Appointment_ID
+        JOIN 
+            Doctor d ON a.Doctor_ID = d.Doctor_ID
+        JOIN 
+            Department dep ON d.Department_ID = dep.Department_ID
+        WHERE 
+            MONTH(b.Billing_Date) = ?
+            AND YEAR(b.Billing_Date) = ?
+        GROUP BY 
+            dep.Department_Name
+        ORDER BY 
+            Total_Revenue DESC;
+    `;
 
     db.query(query, [revenueMonth, revenueYear], (err, results) => {
         if (err) {
@@ -305,8 +324,57 @@ app.get('/monthly-revenue', (req, res) => {
             return res.status(500).json({ message: 'Error fetching monthly revenue' });
         }
 
-        // The result set is typically returned as an array of arrays, so we access results[0]
-        res.json(results[0] || { message: 'No revenue data found for the specified month and year' });
+        res.json(results.length > 0 ? results : { message: 'No revenue data found for the specified month and year' });
+    });
+});
+
+app.get('/create-admin-hospitaloverview-view', (req, res) => {
+    const createViewQuery = `
+        CREATE OR REPLACE VIEW Admin_HospitalOverview AS
+        SELECT 
+            p.Patient_ID,
+            CONCAT(p.First_Name, ' ', p.Last_Name) AS Patient_Name,
+            p.Date_of_Birth,
+            p.Gender,
+            p.Phone_Number,
+            p.Email,
+            
+            a.Appointment_ID,
+            a.Appointment_Date,
+            a.Appointment_Time,
+            a.Status AS Appointment_Status,
+            a.Reason_of_Visit,
+
+            CONCAT(d.First_Name, ' ', d.Last_Name) AS Doctor_Name,
+            d.Specialization AS Doctor_Specialization,
+            d.Contact_Number AS Doctor_Contact,
+            d.Experience AS Doctor_Experience,
+
+            b.Billing_ID,
+            b.Total_Amount AS Billing_Total,
+            b.Payment_Method,
+            b.Billing_Date,
+            b.Payment_Status
+
+        FROM 
+            Patient p
+        LEFT JOIN 
+            Appointment a ON p.Patient_ID = a.Patient_ID
+        LEFT JOIN 
+            Doctor d ON a.Doctor_ID = d.Doctor_ID
+        LEFT JOIN 
+            Billing b ON a.Appointment_ID = b.Appointment_ID
+        ORDER BY 
+            a.Appointment_Date DESC, a.Appointment_Time DESC;
+    `;
+
+    db.query(createViewQuery, (err, result) => {
+        if (err) {
+            console.error('Error creating view:', err);
+            return res.status(500).json({ message: 'Error creating view', error: err });
+        }
+
+        res.json({ message: 'View Admin_HospitalOverview created successfully', result });
     });
 });
 
