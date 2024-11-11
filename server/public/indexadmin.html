@@ -492,36 +492,57 @@
                                                 <th>Payment Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <!-- Example Row -->
-                                            <tr>
-                                                <td>101</td>
-                                                <td>John Doe</td>
-                                                <td>1985-04-12</td>
-                                                <td>Male</td>
-                                                <td>+123456789</td>
-                                                <td>johndoe@example.com</td>
-                                                <td>201</td>
-                                                <td>2024-11-11</td>
-                                                <td>10:00 AM</td>
-                                                <td>Confirmed</td>
-                                                <td>Routine Checkup</td>
-                                                <td>Dr. Smith</td>
-                                                <td>Cardiology</td>
-                                                <td>+987654321</td>
-                                                <td>15</td>
-                                                <td>301</td>
-                                                <td>$200.00</td>
-                                                <td>Credit Card</td>
-                                                <td>2024-11-10</td>
-                                                <td>Paid</td>
-                                            </tr>
-                                            <!-- Repeat rows dynamically -->
+                                        <tbody id="hospitalOverviewTable">
+                                            <!-- Data rows will be inserted here dynamically -->
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
+                    
+                        <script>
+                            // Fetch the data from the server
+                            fetch('/view-admin-hospitaloverview')
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data && data.data) {
+                                        const tableBody = document.getElementById('hospitalOverviewTable');
+                                        data.data.forEach(item => {
+                                            const row = document.createElement('tr');
+                                            
+                                            row.innerHTML = `
+                                                <td>${item.Patient_ID}</td>
+                                                <td>${item.Patient_Name}</td>
+                                                <td>${item.Date_of_Birth}</td>
+                                                <td>${item.Gender}</td>
+                                                <td>${item.Phone_Number}</td>
+                                                <td>${item.Email}</td>
+                                                <td>${item.Appointment_ID}</td>
+                                                <td>${item.Appointment_Date}</td>
+                                                <td>${item.Appointment_Time}</td>
+                                                <td>${item.Appointment_Status}</td>
+                                                <td>${item.Reason_of_Visit}</td>
+                                                <td>${item.Doctor_Name}</td>
+                                                <td>${item.Doctor_Specialization}</td>
+                                                <td>${item.Doctor_Contact}</td>
+                                                <td>${item.Doctor_Experience}</td>
+                                                <td>${item.Billing_ID}</td>
+                                                <td>${item.Billing_Total}</td>
+                                                <td>${item.Payment_Method}</td>
+                                                <td>${item.Billing_Date}</td>
+                                                <td>${item.Payment_Status}</td>
+                                            `;
+                                            
+                                            tableBody.appendChild(row);
+                                        });
+                                    } else {
+                                        console.error('No data found');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching data:', error);
+                                });
+                        </script>
                         
                     </div>
                 </div>
