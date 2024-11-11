@@ -842,55 +842,41 @@
                                             <textarea id="reason_of_visit" placeholder="Enter reason for visit" class="form-control"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" id="schedule-appointment" class="btn btn-primary">Schedule Appointment</button>
+                                            <button type="button" id="schedule-appointment" class="btn btn-primary">Schedule Appointment</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             
                             <script>
-                                document.getElementById("schedule-appointment").addEventListener("click", function(event) {
-                                    event.preventDefault();
+                                document.getElementById('schedule-appointment').addEventListener('click', async () => {
+                                    const appointmentData = {
+                                        appointment_id: document.getElementById('appointment_id').value,
+                                        patient_id: document.getElementById('patient_id').value,
+                                        doctor_id: document.getElementById('doctor_id').value,
+                                        appointment_date: document.getElementById('appointment_date').value,
+                                        appointment_time: document.getElementById('appointment_time').value,
+                                        reason_of_visit: document.getElementById('reason_of_visit').value
+                                    };
                             
-                                    const appointment_id = document.getElementById("appointment_id").value;
-                                    const patient_id = document.getElementById("patient_id").value;
-                                    const doctor_id = document.getElementById("doctor_id").value;
-                                    const appointment_date = document.getElementById("appointment_date").value;
-                                    const appointment_time = document.getElementById("appointment_time").value;
-                                    const reason_of_visit = document.getElementById("reason_of_visit").value;
+                                    try {
+                                        const response = await fetch('/schedule-appointment', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            },
+                                            body: JSON.stringify(appointmentData)
+                                        });
                             
-                                    // Ensure all fields are filled
-                                    if (!appointment_id || !patient_id || !doctor_id || !appointment_date || !appointment_time || !reason_of_visit) {
-                                        alert("Please fill out all fields.");
-                                        return;
+                                        const result = await response.json();
+                                        alert(result.message || 'Appointment scheduled successfully!');
+                                    } catch (error) {
+                                        console.error('Error scheduling appointment:', error);
+                                        alert('Failed to schedule appointment.');
                                     }
-                            
-                                    // Send the data to the server
-                                    fetch('/schedule-appointment', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                        },
-                                        body: JSON.stringify({
-                                            appointment_id,
-                                            patient_id,
-                                            doctor_id,
-                                            appointment_date,
-                                            appointment_time,
-                                            reason_of_visit
-                                        })
-                                    })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.message) {
-                                            alert(data.message);
-                                        }
-                                    })
-                                    .catch(error => {
-                                        alert("Error scheduling appointment: " + error);
-                                    });
                                 });
                             </script>
+                            
                             
                             <div class="col-lg-6">
                                 <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
