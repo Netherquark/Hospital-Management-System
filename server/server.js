@@ -330,7 +330,7 @@ app.get('/monthly-revenue', (req, res) => {
 
 app.get('/create-admin-hospitaloverview-view', (req, res) => {
     const createViewQuery = `
-        CREATE OR REPLACE VIEW Admin_HospitalOverview AS
+        CREATE OR REPLACE VIEW Admin_HospitalOverviews AS
         SELECT 
             p.Patient_ID,
             CONCAT(p.First_Name, ' ', p.Last_Name) AS Patient_Name,
@@ -363,9 +363,7 @@ app.get('/create-admin-hospitaloverview-view', (req, res) => {
         LEFT JOIN 
             Doctor d ON a.Doctor_ID = d.Doctor_ID
         LEFT JOIN 
-            Billing b ON a.Appointment_ID = b.Appointment_ID
-        ORDER BY 
-            a.Appointment_Date DESC, a.Appointment_Time DESC;
+            Billing b ON a.Appointment_ID = b.Appointment_ID;
     `;
 
     db.query(createViewQuery, (err, result) => {
@@ -374,7 +372,22 @@ app.get('/create-admin-hospitaloverview-view', (req, res) => {
             return res.status(500).json({ message: 'Error creating view', error: err });
         }
 
-        res.json({ message: 'View Admin_HospitalOverview created successfully', result });
+        res.json({ message: 'View Admin_HospitalOverviews created successfully', result });
+    });
+});
+
+app.get('/view-admin-hospitaloverview', (req, res) => {
+    const selectQuery = `
+        SELECT * FROM Admin_HospitalOverviews;
+    `;
+
+    db.query(selectQuery, (err, result) => {
+        if (err) {
+            console.error('Error fetching data from view:', err);
+            return res.status(500).json({ message: 'Error fetching data from view', error: err });
+        }
+
+        res.json({ message: 'Data fetched successfully', data: result });
     });
 });
 
