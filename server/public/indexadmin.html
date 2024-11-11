@@ -461,8 +461,6 @@
                             <div class="col-md-12">
                                 <div class="overview-wrap">
                                     <h2 class="title-1">overview</h2>
-                                    <button class="au-btn au-btn-icon au-btn--blue">
-                                        <i class="zmdi zmdi-plus"></i>add item</button>
                                 </div>
                             </div>
                         </div>
@@ -603,430 +601,115 @@
                             </div>
                         </div> -->
                         <div class="row">
+                            <div class="col-lg-4">
+                                <div class="au-card m-b-30">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 m-b-40">Yearly Sales</h3>
+                                        <canvas id="sales-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="au-card m-b-30">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 m-b-40">Team Commits</h3>
+                                        <canvas id="team-chart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="au-card m-b-30">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 m-b-40">Doughut Chart</h3>
+                                        <canvas id="doughutChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-lg-12">
-                                <h2 class="title-1 m-b-25">Appointment History</h2>
-                                <div class="table-responsive table--no-card m-b-40">
+                                <div class="table-responsive table--no-card m-b-30">
                                     <table class="table table-borderless table-striped table-earning">
                                         <thead>
                                             <tr>
-                                                <th>Date</th>
-                                                <th>Appointment ID</th>
-                                                <th>Doctor ID</th>
-                                                <th>Appointment Time</th>
-                                                <th>Status</th>
-                                                <th>Reason of Visit</th>
+                                                <th>date</th>
+                                                <th>order ID</th>
+                                                <th>name</th>
+                                                <th class="text-right">price</th>
+                                                <th class="text-right">quantity</th>
+                                                <th class="text-right">total</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="appointment-history-body">
-                                            <!-- Dynamic rows will be injected here by JavaScript -->
+                                        <tbody>
+                                            <tr>
+                                                <td>2018-09-29 05:57</td>
+                                                <td>100398</td>
+                                                <td>iPhone X 64Gb Grey</td>
+                                                <td class="text-right">$999.00</td>
+                                                <td class="text-right">1</td>
+                                                <td class="text-right">$999.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-28 01:22</td>
+                                                <td>100397</td>
+                                                <td>Samsung S8 Black</td>
+                                                <td class="text-right">$756.00</td>
+                                                <td class="text-right">1</td>
+                                                <td class="text-right">$756.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-27 02:12</td>
+                                                <td>100396</td>
+                                                <td>Game Console Controller</td>
+                                                <td class="text-right">$22.00</td>
+                                                <td class="text-right">2</td>
+                                                <td class="text-right">$44.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-26 23:06</td>
+                                                <td>100395</td>
+                                                <td>iPhone X 256Gb Black</td>
+                                                <td class="text-right">$1199.00</td>
+                                                <td class="text-right">1</td>
+                                                <td class="text-right">$1199.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-25 19:03</td>
+                                                <td>100393</td>
+                                                <td>USB 3.0 Cable</td>
+                                                <td class="text-right">$10.00</td>
+                                                <td class="text-right">3</td>
+                                                <td class="text-right">$30.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-29 05:57</td>
+                                                <td>100392</td>
+                                                <td>Smartwatch 4.0 LTE Wifi</td>
+                                                <td class="text-right">$199.00</td>
+                                                <td class="text-right">6</td>
+                                                <td class="text-right">$1494.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-24 19:10</td>
+                                                <td>100391</td>
+                                                <td>Camera C430W 4k</td>
+                                                <td class="text-right">$699.00</td>
+                                                <td class="text-right">1</td>
+                                                <td class="text-right">$699.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2018-09-22 00:43</td>
+                                                <td>100393</td>
+                                                <td>USB 3.0 Cable</td>
+                                                <td class="text-right">$10.00</td>
+                                                <td class="text-right">3</td>
+                                                <td class="text-right">$30.00</td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            
-                            <script>
-                                // Fetch the appointment history data from the backend
-                                function fetchAppointmentHistory(patientId, startDate, endDate) {
-                                    fetch('/appointment-history', {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({ patient_id: patientId, start_date: startDate, end_date: endDate })
-                                    })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        const tbody = document.getElementById('appointment-history-body');
-                                        tbody.innerHTML = '';  // Clear any existing rows
-                                        
-                                        if (data.message) {
-                                            // Show message if no appointments are found
-                                            const noAppointmentsRow = document.createElement('tr');
-                                            const noAppointmentsCell = document.createElement('td');
-                                            noAppointmentsCell.colSpan = 6;
-                                            noAppointmentsCell.textContent = data.message;
-                                            noAppointmentsRow.appendChild(noAppointmentsCell);
-                                            tbody.appendChild(noAppointmentsRow);
-                                        } else {
-                                            data.forEach(appointment => {
-                                                const row = document.createElement('tr');
-                                                
-                                                const dateCell = document.createElement('td');
-                                                dateCell.textContent = appointment.Appointment_Date; // Use Appointment_Date
-                                                row.appendChild(dateCell);
-                            
-                                                const appointmentIdCell = document.createElement('td');
-                                                appointmentIdCell.textContent = appointment.Appointment_ID; // Use Appointment_ID
-                                                row.appendChild(appointmentIdCell);
-                            
-                                                const doctorIdCell = document.createElement('td');
-                                                doctorIdCell.textContent = appointment.Doctor_ID; // Use Doctor_ID
-                                                row.appendChild(doctorIdCell);
-                            
-                                                const appointmentTimeCell = document.createElement('td');
-                                                appointmentTimeCell.textContent = appointment.Appointment_Time; // Use Appointment_Time
-                                                row.appendChild(appointmentTimeCell);
-                            
-                                                const statusCell = document.createElement('td');
-                                                statusCell.textContent = appointment.Status; // Use Status
-                                                row.appendChild(statusCell);
-                            
-                                                const reasonCell = document.createElement('td');
-                                                reasonCell.textContent = appointment.Reason_of_Visit; // Use Reason_of_Visit
-                                                row.appendChild(reasonCell);
-                            
-                                                tbody.appendChild(row);
-                                            });
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error('Error fetching appointment history:', error);
-                                    });
-                                }
-                            
-                                // Example usage of the fetch function
-                                // Replace these values with the actual patient ID and date range
-                                const patientId = '123';  // Example patient ID
-                                const startDate = '2024-01-01';  // Example start date
-                                const endDate = '2024-11-01';  // Example end date
-                                fetchAppointmentHistory(patientId, startDate, endDate);
-                            </script>
-                            
-                            <!-- <div class="col-lg-3">
-                                <h2 class="title-1 m-b-25">Top Doctors</h2>
-                                <div class="au-card au-card--bg-blue au-card-top-countries m-b-40">
-                                    <div class="au-card-inner">
-                                        <div class="table-responsive">
-                                            <table class="table table-top-countries">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Anaesthesia</td>
-                                                        <td class="text-right">$119,366.96</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Anatomy</td>
-                                                        <td class="text-right">$70,261.65</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dental</td>
-                                                        <td class="text-right">$46,399.22</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Dermatology</td>
-                                                        <td class="text-right">$35,364.90</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Physiology</td>
-                                                        <td class="text-right">$0.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Physiotherapy</td>
-                                                        <td class="text-right">$0.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Psychiatry</td>
-                                                        <td class="text-right">$0.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pulmonology</td>
-                                                        <td class="text-right">$0.00</td>
-                                                    </tr>
-                                                </tbody>
-                                                
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                    <div class="au-card-title" style="background-image:url('images/bg-title-01.jpg');">
-                                        <div class="bg-overlay bg-overlay--blue"></div>
-                                        <h3>
-                                            <i class="zmdi zmdi-account-calendar"></i>Upcoming </h3>
-                                    </div>
-                                    <div class="au-task js-list-load">
-                                        <div class="au-task__title">
-                                            <p>10 November 2024</p>
-                                        </div>
-                                        <div class="au-task-list js-scrollbar3">
-                                            <div class="au-task__item au-task__item--danger">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                    </h5>
-                                                    <span class="time">10:00 AM</span>
-                                                    <button class="au-btn au-btn-icon au-btn--red" style="float: right;">
-                                                        <i class="zmdi zmdi-close"></i>cancel
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--warning">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Create new task for Dashboard</a>
-                                                    </h5>
-                                                    <span class="time">11:00 AM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--primary">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                    </h5>
-                                                    <span class="time">02:00 PM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--success">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Create new task for Dashboard</a>
-                                                    </h5>
-                                                    <span class="time">03:30 PM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--danger js-load-item">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Meeting about plan for Admin Template 2018</a>
-                                                    </h5>
-                                                    <span class="time">10:00 AM</span>
-                                                </div>
-                                            </div>
-                                            <div class="au-task__item au-task__item--warning js-load-item">
-                                                <div class="au-task__item-inner">
-                                                    <h5 class="task">
-                                                        <a href="#">Create new task for Dashboard</a>
-                                                    </h5>
-                                                    <span class="time">11:00 AM</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="au-task__footer">
-                                            <button class="au-btn au-btn-load js-load-btn">load more</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <strong>Schedule Appointment</strong>
-                                        <small> Form</small>
-                                    </div>
-                                    <div class="card-body card-block">
-                                        <div class="form-group">
-                                            <label for="appointment_id" class=" form-control-label">Appointment ID</label>
-                                            <input type="text" id="appointment_id" placeholder="Enter appointment ID" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="patient_id" class=" form-control-label">Patient ID</label>
-                                            <input type="text" id="patient_id" placeholder="Enter patient ID" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="doctor_id" class=" form-control-label">Doctor ID</label>
-                                            <input type="text" id="doctor_id" placeholder="Enter doctor ID" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="appointment_date" class=" form-control-label">Appointment Date</label>
-                                            <input type="date" id="appointment_date" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="appointment_time" class=" form-control-label">Appointment Time</label>
-                                            <input type="time" id="appointment_time" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="reason_of_visit" class=" form-control-label">Reason of Visit</label>
-                                            <textarea id="reason_of_visit" placeholder="Enter reason for visit" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" id="schedule-appointment" class="btn btn-primary">Schedule Appointment</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <script>
-                                document.getElementById('schedule-appointment').addEventListener('click', async () => {
-                                    const appointmentData = {
-                                        appointment_id: document.getElementById('appointment_id').value,
-                                        patient_id: document.getElementById('patient_id').value,
-                                        doctor_id: document.getElementById('doctor_id').value,
-                                        appointment_date: document.getElementById('appointment_date').value,
-                                        appointment_time: document.getElementById('appointment_time').value,
-                                        reason_of_visit: document.getElementById('reason_of_visit').value
-                                    };
-                            
-                                    try {
-                                        const response = await fetch('/schedule-appointment', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify(appointmentData)
-                                        });
-                            
-                                        const result = await response.json();
-                                        alert(result.message || 'Appointment scheduled successfully!');
-                                    } catch (error) {
-                                        console.error('Error scheduling appointment:', error);
-                                        alert('Failed to schedule appointment.');
-                                    }
-                                });
-                            </script>
-                            
-                            
-                            <div class="col-lg-6">
-                                <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
-                                    <div class="au-card-title" style="background-image:url('images/bg-title-02.jpg');">
-                                        <div class="bg-overlay bg-overlay--blue"></div>
-                                        <h3>
-                                            <i class="zmdi zmdi-comment-text"></i>Consultations with Specialists
-                                        </h3>
-                                    </div>
-                                    <div class="au-inbox-wrap js-inbox-wrap">
-                                        <div class="au-message js-list-load">
-                                            <div class="au-message__noti">
-                                                <p>You have
-                                                    <span>2</span>
-                                                    new messages
-                                                </p>
-                                            </div>
-                                            <div class="au-message-list">
-                                                <div class="au-message__item unread">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap">
-                                                                <div class="avatar">
-                                                                    <img src="images/icon/avatar-02.jpg" alt="Dr. John Smith">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Dr. John Smith</h5>
-                                                                <p>Sent a diagnostic report</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>12 Min ago</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item unread">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap online">
-                                                                <div class="avatar">
-                                                                    <img src="images/icon/avatar-03.jpg" alt="Dr. Nicholas Martinez">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Dr. Nicholas Martinez</h5>
-                                                                <p>You are now connected on the portal</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>11:00 PM</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap online">
-                                                                <div class="avatar">
-                                                                    <img src="images/icon/avatar-04.jpg" alt="Dr. Michelle Sims">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Dr. Michelle Sims</h5>
-                                                                <p>Please follow up on Monday</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Yesterday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__item">
-                                                    <div class="au-message__item-inner">
-                                                        <div class="au-message__item-text">
-                                                            <div class="avatar-wrap">
-                                                                <div class="avatar">
-                                                                    <img src="images/icon/avatar-05.jpg" alt="Dr. Mathew Perry">
-                                                                </div>
-                                                            </div>
-                                                            <div class="text">
-                                                                <h5 class="name">Dr. Mathew Perry</h5>
-                                                                <p>Glad to hear that!</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="au-message__item-time">
-                                                            <span>Sunday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="au-message__footer">
-                                                    <button class="au-btn au-btn-load js-load-btn">Load more</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="au-chat">
-                                            <div class="au-chat__title">
-                                                <div class="au-chat-info">
-                                                    <div class="avatar-wrap online">
-                                                        <div class="avatar avatar--small">
-                                                            <img src="images/icon/avatar-02.jpg" alt="Dr. John Smith">
-                                                        </div>
-                                                    </div>
-                                                    <span class="nick">
-                                                        <a href="#">Dr. John Smith</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="au-chat__content">
-                                                <div class="recei-mess-wrap">
-                                                    <span class="mess-time">12 Min ago</span>
-                                                    <div class="recei-mess__inner">
-                                                        <div class="avatar avatar--tiny">
-                                                            <img src="images/icon/avatar-02.jpg" alt="Dr. John Smith">
-                                                        </div>
-                                                        <div class="recei-mess-list">
-                                                            <div class="recei-mess">The patient reports symptoms of mild fatigue</div>
-                                                            <div class="recei-mess">We should schedule additional tests</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="send-mess-wrap">
-                                                    <span class="mess-time">30 Sec ago</span>
-                                                    <div class="send-mess__inner">
-                                                        <div class="send-mess-list">
-                                                            <div class="send-mess">Noted, will arrange for Monday</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="au-chat-textfield">
-                                                <form class="au-form-icon">
-                                                    <input class="au-input au-input--full au-input--h65" type="text" placeholder="Type a message">
-                                                    <button class="au-input-icon">
-                                                        <i class="zmdi zmdi-camera"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
